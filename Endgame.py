@@ -64,8 +64,10 @@ def show_result(result_text):
 
 def check_game(result_text):
     if result_text == "replay":
+
         from TicTacToe import reset_game
         reset_game()
+
         from TicTacToe import start_game
         start_game()
         sys.exit()
