@@ -1,10 +1,9 @@
 # Endgame.py
 
-
 import pygame
 import sys
 import subprocess
-
+from TicTacToe import *
 
 def show_result(result_text):
     pygame.init()
@@ -37,7 +36,6 @@ def show_result(result_text):
                 mouse_pos = event.pos
                 if replay_button.collidepoint(mouse_pos):
                     # Chơi lại
-                    from TicTacToe import reset_game
                     reset_game()  # Đặt lại trò chơi
                     return "replay"
                 elif exit_button.collidepoint(mouse_pos):
@@ -65,9 +63,7 @@ def show_result(result_text):
 
 def check_game(result_text):
     if result_text == "replay":
-        from TicTacToe import reset_game
         reset_game()
-        from TicTacToe import start_game
         start_game()
         sys.exit()
 
