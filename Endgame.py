@@ -1,8 +1,10 @@
 # Endgame.py
 
+
 import pygame
 import sys
 import subprocess
+
 
 def show_result(result_text):
     pygame.init()
@@ -35,8 +37,9 @@ def show_result(result_text):
                 mouse_pos = event.pos
                 if replay_button.collidepoint(mouse_pos):
                     # Chơi lại
-                    subprocess.run(["python", "TicTacToe.py"])
-                    sys.exit()
+                    from TicTacToe import reset_game
+                    reset_game()  # Đặt lại trò chơi
+                    return "replay"
                 elif exit_button.collidepoint(mouse_pos):
                     # Thoát
                     sys.exit()
@@ -53,11 +56,22 @@ def show_result(result_text):
         exit_text = font.render("Out Game", True, (0, 0, 0))
 
         # Canh giữa văn bản trên nút
-        screen.blit(replay_text, (replay_button.x + (replay_button.width - replay_text.get_width()) // 2, replay_button.y + 15))
+        screen.blit(replay_text,
+                    (replay_button.x + (replay_button.width - replay_text.get_width()) // 2, replay_button.y + 15))
         screen.blit(exit_text, (exit_button.x + (exit_button.width - exit_text.get_width()) // 2, exit_button.y + 15))
 
         pygame.display.flip()
 
+
+def check_game(result_text):
+    if result_text == "replay":
+        from TicTacToe import reset_game
+        reset_game()
+        from TicTacToe import start_game
+        start_game()
+        sys.exit()
+
 if __name__ == "__main__":
     result_text = sys.argv[1]
     show_result(result_text)
+    check_game(result_text)

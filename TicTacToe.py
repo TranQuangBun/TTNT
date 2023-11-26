@@ -132,6 +132,15 @@ def find_best_move(board):
                     best_move = (i, j)
 
     return best_move
+def reset_game():
+    global game_over, result, player_turn, board
+
+    game_over = False
+    result = None
+    player_turn = True
+    board = [[EMPTY, EMPTY, EMPTY],
+             [EMPTY, EMPTY, EMPTY],
+             [EMPTY, EMPTY, EMPTY]]
 
 # Vòng lặp chính
 def start_game():
