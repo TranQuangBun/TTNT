@@ -9,6 +9,8 @@ def show_result(result_text):
     screen = pygame.display.set_mode((600, 600))
     pygame.display.set_caption("Kết quả")
 
+    run = True
+
     # Thêm hình nền
     background = pygame.image.load("winner.png")
     background = pygame.transform.scale(background, (600, 600))
@@ -25,7 +27,7 @@ def show_result(result_text):
     replay_button.x = (screen.get_width() - replay_button.width) // 4
     exit_button.x = 3 * (screen.get_width() - exit_button.width) // 4
 
-    while True:
+    while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()

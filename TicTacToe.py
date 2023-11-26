@@ -1,8 +1,9 @@
+# Tictactoe.py
+
 import pygame
 import sys
-import random
-import subprocess
 from Endgame import show_result
+
 X = "X"
 O = "O"
 EMPTY = None
@@ -33,6 +34,9 @@ pygame.display.set_caption("Tic-Tac-Toe")
 game_over = False
 result = None
 player_turn = True
+
+check_game = True
+run = True
 
 def draw_board():
     for row in range(1, BOARD_SIZE):
@@ -129,62 +133,57 @@ def find_best_move(board):
 
     return best_move
 
-
 # Vòng lặp chính
-player_turn = True  # Người chơi hoặc máy tính đi trước
-game_over = False
+def start_game():
+    global game_over, result, player_turn, board
 
-while not game_over:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
+    while not game_over:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
-        if player_turn:
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                col = event.pos[0] // CELL_SIZE
-                row = event.pos[1] // CELL_SIZE
-                if board[row][col] == EMPTY:
-                    board[row][col] = PLAYER
-                    player_turn = False
+            if player_turn:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    col = event.pos[0] // CELL_SIZE
+                    row = event.pos[1] // CELL_SIZE
+                    if board[row][col] == EMPTY:
+                        board[row][col] = PLAYER
+                        player_turn = False
 
-        if not player_turn and not game_over:
-            move = find_best_move(board)
-            if move:
-                board[move[0]][move[1]] = COMPUTER
-                player_turn = True
+            if not player_turn and not game_over:
+                move = find_best_move(board)
+                if move:
+                    board[move[0]][move[1]] = COMPUTER
+                    player_turn = True
 
-        result = evaluate(board)
-        if result is not None:
-            game_over = True
+            result = evaluate(board)
+            if result is not None:
+                game_over = True
 
-    screen.fill(WHITE)
-    draw_board()
+        screen.fill(WHITE)
+        draw_board()
 
-    for row in range(BOARD_SIZE):
-        for col in range(BOARD_SIZE):
-            if board[row][col] == PLAYER:
-                draw_xo(row, col, PLAYER)
-            elif board[row][col] == COMPUTER:
-                draw_xo(row, col, COMPUTER)
+        for row in range(BOARD_SIZE):
+            for col in range(BOARD_SIZE):
+                if board[row][col] == PLAYER:
+                    draw_xo(row, col, PLAYER)
+                elif board[row][col] == COMPUTER:
+                    draw_xo(row, col, COMPUTER)
 
-    pygame.display.flip() # hiển thị trạng thái mới của trò chơi lên màn hình
+        pygame.display.flip()  # hiển thị trạng thái mới của trò chơi lên màn hình
 
-result_text = None
-if result == 1:
-    result_text = "Computer Win!"
-elif result == -1:
-    result_text = "Player Win!"
-else:
-    result_text = "Drawn!"
+    result_text = None
+    if result == 1:
+        result_text = "Computer Win!"
+    elif result == -1:
+        result_text = "Player Win!"
+    else:
+        result_text = "Drawn!"
 
-print(result_text)
+    print(result_text)
 
-show_result(result_text)
+    show_result(result_text)
 
-subprocess.run(["python", "Endgame.py", result_text])
-
-
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
+if __name__ == "__main__":
+    start_game()
